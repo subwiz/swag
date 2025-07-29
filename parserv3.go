@@ -142,6 +142,9 @@ func (p *Parser) parseGeneralAPIInfoV3(comments []string) error {
 
 			p.openAPI.Components.Spec.SecuritySchemes[key] = schemeSpec
 
+		case securityAttr:
+			p.openAPI.Security = append(p.openAPI.Security, parseSecurity(value))
+
 		case "@query.collection.format":
 			p.collectionFormatInQuery = TransToValidCollectionFormat(value)
 
@@ -1061,11 +1064,13 @@ func (p *Parser) GetSchemaTypePathV3(schema *spec.RefOrSpec[spec.Schema], depth 
 	if schema.Spec.Type != nil && len(*schema.Spec.Type) > 0 {
 		switch (*schema.Spec.Type)[0] {
 		case ARRAY:
-			depth--
+			if schema.Spec.Items != nil && schema.Spec.Items.Schema != nil {
+				depth--
 
-			s := []string{(*schema.Spec.Type)[0]}
+				s := []string{(*schema.Spec.Type)[0]}
 
-			return append(s, p.GetSchemaTypePathV3(schema.Spec.Items.Schema, depth)...)
+				return append(s, p.GetSchemaTypePathV3(schema.Spec.Items.Schema, depth)...)
+			}
 		case OBJECT:
 			if schema.Spec.AdditionalProperties != nil && schema.Spec.AdditionalProperties.Schema != nil {
 				// for map
