@@ -54,13 +54,7 @@ package main
 // @in header
 // @name name
 
-// @securitydefinitions.bearerauth BearerAuth1
-// @description First bearer token
-// @bearerformat JWT
-
-// @securitydefinitions.bearerauth BearerAuth2
-// @description Second bearer token
-// @bearerformat CustomToken
+// @securitydefinitions.bearerauth BearerAuth
 
 // @externalDocs.description OpenAPI
 // @externalDocs.url https://swagger.io/resources/open-api

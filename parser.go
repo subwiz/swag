@@ -1395,13 +1395,8 @@ func (parser *Parser) ParseDefinition(typeSpecDef *TypeSpecDef) (*Schema, error)
 	if parser.isInStructStack(typeSpecDef) {
 		parser.debug.Printf("Skipping '%s', recursion detected.", typeName)
 
-		schemaName := typeName
-		if typeSpecDef.SchemaName != "" {
-			schemaName = typeSpecDef.SchemaName
-		}
-
 		return &Schema{
-				Name:    schemaName,
+				Name:    typeName,
 				PkgPath: typeSpecDef.PkgPath,
 				Schema:  PrimitiveSchema(OBJECT),
 			},
