@@ -72,7 +72,7 @@ func (p *Parser) parseGeneralAPIInfoV3(comments []string) error {
 				return err
 			}
 
-			setspecInfo(p.openAPI, attr, string(commentInfo))
+			setspecInfo(p.openAPI, descriptionAttr, string(commentInfo))
 		case "@host":
 			if len(p.openAPI.Servers) == 0 {
 				server := spec.NewServer()
@@ -1048,7 +1048,7 @@ func (p *Parser) parseStructFieldV3(file *ast.File, field *ast.Field) (map[strin
 		tagRequired = append(tagRequired, fieldName)
 	}
 
-	if formName := ps.FormName(); len(formName) > 0 {
+	if formName := ps.FormName(); len(formName) > 0 && schema != nil && schema.Spec != nil {
 		if schema.Spec.Extensions == nil {
 			schema.Spec.Extensions = make(map[string]any)
 		}
